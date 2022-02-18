@@ -9,6 +9,7 @@ class NotePage extends StatefulWidget {
 }
 
 class _NotePageState extends State<NotePage> {
+  final name = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +40,35 @@ class _NotePageState extends State<NotePage> {
                           DatabaseHelper.instance.delete(grocesry.id!);
                         });
                       },
-                      onTap: () {},
+                      onTap: () {
+                        name.text = grocesry.name;
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return SimpleDialog(
+                                children: [
+                                  TextField(
+                                    controller: name,
+                                    decoration: InputDecoration(
+                                      labelText: 'update name',
+                                    ),
+                                  ),
+                                  ElevatedButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          DatabaseHelper.instance.update(
+                                              Grocesry(
+                                                  id: grocesry.id,
+                                                  name: name.text));
+                                        });
+
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('update'))
+                                ],
+                              );
+                            });
+                      },
                     );
                   }).toList(),
                 );

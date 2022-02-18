@@ -41,10 +41,10 @@ class _NewNoteState extends State<NewNote> {
               tileColor: Colors.blue,
             ),
             ElevatedButton(
-                onPressed: () async {
-                  await DatabaseHelper.instance
-                      .insert(Grocesry(name: _controloer.text));
-                  setState(() {
+                onPressed: () {
+                  setState(() async {
+                    await DatabaseHelper.instance
+                        .insert(Grocesry(name: _controloer.text));
                     _controloer.clear();
                   });
                 },
