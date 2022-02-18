@@ -42,4 +42,20 @@ class DatabaseHelper {
         notes.isNotEmpty ? notes.map((e) => Grocesry.fromMap(e)).toList() : [];
     return queryList;
   }
+
+  Future<int> insert(Grocesry grocesry) async {
+    Database db = await instance.database;
+    return await db.insert('notes', grocesry.toMap());
+  }
+
+  Future<int> delete(int id) async {
+    Database db = await instance.database;
+    return await db.delete('notes', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<int> update(Grocesry grocesry) async {
+    Database db = await instance.database;
+    return await db.update('notes', grocesry.toMap(),
+        where: 'id = ?', whereArgs: [grocesry.id]);
+  }
 }

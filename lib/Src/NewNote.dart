@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttersql/database.dart';
 
 class NewNote extends StatefulWidget {
   const NewNote({Key? key}) : super(key: key);
@@ -10,6 +11,7 @@ class NewNote extends StatefulWidget {
 class _NewNoteState extends State<NewNote> {
   DateTime? dateTime;
   String? date;
+  final _controloer = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +27,7 @@ class _NewNoteState extends State<NewNote> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
+                controller: _controloer,
                 decoration: InputDecoration(labelText: 'Note'),
               ),
             ),
@@ -37,7 +40,15 @@ class _NewNoteState extends State<NewNote> {
                   icon: Icon(Icons.date_range)),
               tileColor: Colors.blue,
             ),
-            ElevatedButton(onPressed: () {}, child: Text('Add Note'))
+            ElevatedButton(
+                onPressed: () async {
+                  await DatabaseHelper.instance
+                      .insert(Grocesry(name: _controloer.text));
+                  setState(() {
+                    _controloer.clear();
+                  });
+                },
+                child: Text('Add Note'))
           ],
         ),
       ),
